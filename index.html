@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Shree Shyam Events, Harda. Rent chairs, mandaps, stages, décor, lighting and tableware for weddings, birthdays, puja and corporate events.">
+<link rel="icon" href="assets/logo-plum.png">
+<title>Shree Shyam Events – Event rentals and décor in Harda, Madhya Pradesh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Mukta:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head><body>
+
+<div class="util">
+ <span class="loc">Harda, Madhya Pradesh</span>
+ <span class="utl">
+  <a id="callTop" href="#">Call us</a>
+  <a href="#contact">Request a call back</a>
+  <a href="https://www.instagram.com/shreeshyamevent_harda/" target="_blank" rel="noopener">Instagram</a>
+  <button id="lb" type="button">हिंदी</button>
+ </span>
+</div>
+
+<header class="top">
+ <a class="brandlink" href="#top" aria-label="Shree Shyam Events home">
+  <picture><source media="(prefers-color-scheme:dark)" srcset="assets/logo-plum.png"><img class="logo" src="assets/logo-cream.png" alt="Shree Shyam Events logo"></picture>
+ </a>
+ <nav id="nav" aria-label="Main">
+  <div class="has-mega">
+   <a href="#rent" data-a="cat" data-i="-2" aria-haspopup="true">Rent</a>
+   <div class="mega" id="mega"></div>
+  </div>
+  <a href="#themes">Ready-made looks</a>
+  <a href="#inspirations">Inspirations</a>
+  <a href="#services">Services</a>
+  <a href="#contact">Contact</a>
+ </nav>
+ <div class="tools">
+  <button class="ic" id="searchBtn" aria-label="Search rentals"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg></button>
+  <button class="ic" id="favBtn" aria-label="Favourites"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.5-8 11-8 11z"/></svg><b id="fcnt">0</b></button>
+  <button class="ic" id="cartBtn" aria-label="Enquiry list"><svg viewBox="0 0 24 24"><path d="M4 5h2l2 11h10l2-8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="17" cy="20" r="1.2"/></svg><b id="cnt">0</b></button>
+  <button class="ic menu" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+ </div>
+</header>
+
+<main id="top">
+<section class="hero" aria-roledescription="carousel" aria-label="Highlights">
+ <div class="slide on" style="--img:url(../assets/istockphoto-2239276601-612x612.jpg)"><div class="cap"><h1>Beautiful setups for every celebration in Harda</h1><p>Rent chairs, mandap décor, tableware and lighting, or let us plan the whole event, from shaadi to satsang, with delivery and setup.</p><a class="btn" href="#categories">Browse rentals</a></div></div>
+ <div class="slide" style="--img:url(../assets/photo-1587271636175-90d58cdad458.avif)"><div class="cap"><h2>Mandaps, stages and floral décor</h2><p>From varmala stages to full wedding mandaps, styled to match.</p><a class="btn" href="#themes">See ready-made looks</a></div></div>
+ <div class="slide" style="--img:url(../assets/photo-1587271407850-8d438ca9fdf2.avif)"><div class="cap"><h2>Seating, lighting and tableware</h2><p>Everything for your guests. We deliver, set up and pick up.</p><a class="btn" href="#rent">Rent for your event</a></div></div>
+ <button class="car prev" aria-label="Previous slide">‹</button><button class="car next" aria-label="Next slide">›</button>
+ <div class="dots" id="dots"></div>
+</section>
+
+<div class="strip"><span>Delivery and setup</span><span>Pickup after your event</span><span>Harda and nearby towns</span><span>Hindi and English support</span></div>
+
+<section id="categories">
+ <div class="head"><div><h2>Discover our rental categories</h2></div></div>
+ <div class="tiles" id="tiles"></div>
+</section>
+
+<section id="rent" class="band">
+ <div class="head"><div><h2>Rent for your event</h2><p>Pick a category, add items and quantities, then send your list to us on WhatsApp. We reply with rates and availability for your date.</p></div></div>
+ <div class="shop">
+  <aside class="side" id="side" aria-label="Categories"></aside>
+  <div>
+   <div class="bar"><input id="q" type="search" data-ph="Search rentals" placeholder="Search rentals" aria-label="Search rentals"><span id="meta"></span></div>
+   <div class="items" id="items"></div>
+  </div>
+ </div>
+</section>
+
+<section id="themes">
+ <div class="head"><div><h2>Rent the look</h2><p>Pick a full theme and add every item in one tap.</p></div></div>
+ <div id="looksList"></div>
+</section>
+
+<section id="popular" class="band">
+ <div class="head"><div><h2>Popular rentals</h2></div><div class="arrows"><button class="car sm" data-a="scroll" data-t="pop" data-d="-1" aria-label="Scroll left">‹</button><button class="car sm" data-a="scroll" data-t="pop" data-d="1" aria-label="Scroll right">›</button></div></div>
+ <div class="row" id="pop"></div>
+</section>
+
+<section id="inspirations">
+ <div class="head"><div><h2>Inspirations</h2><p>Create atmosphere. Transform rooms.</p></div><a class="btn ghost" href="https://www.instagram.com/shreeshyamevent_harda/" target="_blank" rel="noopener">See more on Instagram</a></div>
+ <div class="insp">
+  <a class="tile" href="#contact" data-a="type" data-v="Birthday" style="--img:url(../assets/istockphoto-2291758438-612x612.jpg)"><span><b>Mehendi and haldi</b><em>Enquire</em></span></a>
+  <a class="tile" href="#contact" data-a="type" data-v="Other" style="--img:url(../assets/istockphoto-2239276601-612x612.jpg)"><span><b>Sangeet</b><em>Enquire</em></span></a>
+  <a class="tile" href="#contact" data-a="type" data-v="Wedding" style="--img:url(../assets/photo-1601482441062-b9f13131f33a.avif)"><span><b>Wedding</b><em>Enquire</em></span></a>
+ </div>
+</section>
+
+<section id="services" class="band">
+ <div class="head"><div><h2>What we plan</h2></div></div>
+ <div class="svc">
+  <div><h3>Weddings</h3><p>Stage, mandap, entry gate, seating and lighting for every function.</p></div>
+  <div><h3>Birthdays and baby showers</h3><p>Theme décor, balloons, backdrops and table setups.</p></div>
+  <div><h3>Puja, satsang and jagran</h3><p>Pandal, floor seating, sound, and clean simple décor.</p></div>
+  <div><h3>Corporate and school events</h3><p>Stage, branding backdrops, chairs and registration desks.</p></div>
+ </div>
+</section>
+
+<section class="why">
+ <div class="head"><div><h2>Why families choose us</h2></div></div>
+ <ul>
+  <li><b>One team, one point of contact</b><span>From first call to pickup, you talk to the same people.</span></li>
+  <li><b>Clean, matching sets</b><span>Items are checked and styled together before they leave.</span></li>
+  <li><b>On time, at your venue</b><span>We deliver, set up and dismantle, so you can enjoy the day.</span></li>
+  <li><b>Local to Harda</b><span>We know the venues, the season and your guests.</span></li>
+ </ul>
+</section>
+
+<section id="contact">
+ <div class="contact">
+  <div>
+   <h2>Tell us about your event</h2>
+   <p class="mut">Fill this in and your enquiry opens in WhatsApp, ready to send. Your selected items are included.</p>
+   <p><a class="btn" id="callBtn" href="#">Call us</a></p>
+  </div>
+  <div>
+   <div class="tabs" role="tablist"><button role="tab" aria-selected="false" data-tab="cb">Request a call back</button><button role="tab" aria-selected="true" data-tab="msg">Send a message</button></div>
+   <form id="cb" hidden onsubmit="return false">
+    <p class="mut">Leave your number and we will call you back.</p>
+    <label for="cbn">Your name</label><input id="cbn" autocomplete="name">
+    <label for="cbp">Phone number</label><input id="cbp" inputmode="tel" autocomplete="tel">
+    <p><button class="btn" id="cbSend" type="button">Request a call back</button></p>
+   </form>
+   <form id="f" onsubmit="return false">
+    <label for="nm">Your name</label><input id="nm" autocomplete="name">
+    <label for="ph">Phone number</label><input id="ph" inputmode="tel" autocomplete="tel">
+    <label for="ty">Event type</label>
+    <select id="ty"><option>Wedding</option><option>Birthday</option><option>Baby shower</option><option>Puja or satsang</option><option>Corporate event</option><option>Other</option></select>
+    <label for="dt">Event date</label><input id="dt" type="date">
+    <label for="gs">Number of guests</label><input id="gs" inputmode="numeric">
+    <label for="ms">Anything else?</label><textarea id="ms" rows="3"></textarea>
+    <div class="sel" id="sel">No items selected yet. You can still send a general enquiry.</div>
+    <p><button class="btn" id="send" type="button">Send on WhatsApp</button></p>
+   </form>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="fcols">
+  <div><img src="assets/logo-plum.png" alt="Shree Shyam Events"><p>Shree Shyam Events, Harda, Madhya Pradesh</p></div>
+  <div><h4>Rent categories</h4><div id="fcats"></div></div>
+  <div><h4>Company</h4><a href="#themes">Ready-made looks</a><a href="#inspirations">Inspirations</a><a href="#services">Services</a><a href="#contact">Contact</a></div>
+  <div><h4>Follow us</h4><a href="https://www.instagram.com/shreeshyamevent_harda/" target="_blank" rel="noopener">Instagram</a><a id="waLink" href="#" target="_blank" rel="noopener">WhatsApp</a><a id="callFoot" href="#">Call us</a></div>
+ </div>
+ <p class="copy">© 2026 Shree Shyam Events. All rights reserved.</p>
+</footer>
+
+<a class="rentnow" href="#rent">Rent now</a>
+<a class="totop" href="#top" aria-label="Back to top">↑</a>
+
+<dialog id="dlg"><div class="in"><h2>Your enquiry list</h2><div id="dl"></div>
+ <p class="dacts"><a class="btn" href="#contact" id="go">Continue to send</a><button class="btn ghost" id="cl">Close</button></p></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body></html>
