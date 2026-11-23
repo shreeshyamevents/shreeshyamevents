@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import styles from '../styles/globals.css';
 
 // Import our custom components
 import EventSelector from '../components/EventSelector';
@@ -29,7 +30,6 @@ export default function Home() {
   // Step 2 Logic: Filter data and move to Step 3
   const handleSearch = () => {
     // Filter the setups based on selected events and the numerical budget
-    // Note: Ensure your setups.json has a numeric "price" field for this to work.
     const filteredResults = setupsData.filter((setup) => {
       const matchesEvent = selectedEvents.some((event) => 
         setup.events.includes(event)
@@ -38,7 +38,7 @@ export default function Home() {
       return matchesEvent && matchesBudget;
     });
 
-    // If no results match, we can just show all for the demo, or show an empty state
+    // If no results match, show all for the demo, or show an empty state
     setResults(filteredResults.length > 0 ? filteredResults : setupsData.slice(0, 3));
     setStep(3);
   };
@@ -57,16 +57,10 @@ export default function Home() {
       <Head>
         <title>Shree Shyam Events | Plan Your Event</title>
         <meta name="description" content="Create your dream event with Shree Shyam Events" />
-        <script 
-          type="module" 
-          src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js" 
-          defer
-        ></script>
       </Head>
 
       {/* Header / Logo Area */}
       <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-        {/* Fallback text if logo image fails to load */}
         <img 
           src="/logo.png" 
           alt="Shree Shyam Events" 
@@ -140,8 +134,9 @@ export default function Home() {
                 <SetupCard 
                   key={setup.id} 
                   setup={setup} 
-                  onViewAR={() => setSelectedModel("/models/goat.glb")} 
-                  // Note: We are using the goat.glb for testing!
+                  /* === OPTION A APPLIED HERE === */
+                  /* Using Google's test Astronaut model instead of goat.glb */
+                  onViewAR={() => setSelectedModel("https://modelviewer.dev/shared-assets/models/Astronaut.glb")} 
                 />
               ))}
             </div>
