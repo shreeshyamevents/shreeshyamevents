@@ -1,34 +1,54 @@
-const MIN_BUDGET = 50000;
-const MAX_BUDGET = 1000000;
-const BUDGET_STEP = 25000;
+import React from 'react';
 
-const formatCurrency = (value) => new Intl.NumberFormat('en-IN', {
-  style: 'currency',
-  currency: 'INR',
-  maximumFractionDigits: 0,
-}).format(value);
+export default function BudgetSlider({ budget, setBudget }) {
+  const formatCurrency = (val) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0,
+    }).format(val);
+  };
 
-export default function BudgetSlider({ budget, onChange }) {
+  const handleSliderChange = (e) => {
+    // Force the value to be a number and update state
+    const newValue = parseInt(e.target.value, 10);
+    setBudget(newValue);
+  };
+
   return (
-    <div className="budget-slider">
-      <output className="budget-value" htmlFor="event-budget" aria-live="polite">
-        {formatCurrency(budget)}
-      </output>
-      <label className="sr-only" htmlFor="event-budget">Estimated event budget</label>
+    <div style={{ marginTop: '40px', padding: '0 20px', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <span style={{ fontSize: '0.9rem', color: '#666' }}>₹50,000</span>
+        <span style={{ fontSize: '0.9rem', color: '#666' }}>₹10,00,000+</span>
+      </div>
+      
       <input
-        className="budget-range"
-        id="event-budget"
         type="range"
-        min={MIN_BUDGET}
-        max={MAX_BUDGET}
-        step={BUDGET_STEP}
+        min="50000"
+        max="1000000"
+        step="25000"
         value={budget}
-        onChange={(event) => onChange(Number(event.target.value))}
-        aria-valuetext={formatCurrency(budget)}
+        onChange={handleSliderChange}
+        style={{
+          width: '100%',
+          cursor: 'pointer',
+          accentColor: '#1a1a1a', // Makes the thumb and track black in most browsers
+          height: '6px',
+          background: '#e0e0e0',
+          borderRadius: '3px',
+          outline: 'none',
+          appearance: 'none',
+          WebkitAppearance: 'none',
+          zIndex: 10,
+          position: 'relative'
+        }}
       />
-      <div className="budget-range-labels" aria-hidden="true">
-        <span>{formatCurrency(MIN_BUDGET)}</span>
-        <span>{formatCurrency(MAX_BUDGET)}</span>
+      
+      <div style={{ textAlign: 'center', marginTop: '30px' }}>
+        <p style={{ fontSize: '0.9rem', color: '#666', margin: 0 }}>Selected Budget</p>
+        <span style={{ fontSize: '2rem', fontWeight: '600', fontFamily: 'Cinzel, serif' }}>
+          {formatCurrency(budget)}
+        </span>
       </div>
     </div>
   );
