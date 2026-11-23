@@ -1,0 +1,50 @@
+[
+  {
+    "id": "haldi-classic",
+    "title": "Classic Haldi Celebration",
+    "description": "A graceful, intimate setup with clean details and a welcoming space for your Haldi ceremony.",
+    "img": "/images/haldi-setup.jpg",
+    "events": ["Haldi"],
+    "budget": "Under ₹1 Lakh"
+  },
+  {
+    "id": "mehandi-gathering",
+    "title": "Mehandi Gathering",
+    "description": "A thoughtfully arranged setting designed to make your Mehandi celebration feel warm and personal.",
+    "img": "/images/mehandi-setup.jpg",
+    "events": ["Mehandi", "Haldi"],
+    "budget": "₹1L - ₹3L"
+  },
+  {
+    "id": "sangeet-evening",
+    "title": "Sangeet Evening",
+    "description": "A polished celebration setup with room for guests, performances, and memorable moments.",
+    "img": "/images/sangeet-setup.jpg",
+    "events": ["Sangeet", "Stage"],
+    "budget": "₹3L - ₹5L"
+  },
+  {
+    "id": "grand-reception",
+    "title": "Grand Reception",
+    "description": "An elegant reception concept with a considered layout for a larger gathering and a beautiful evening.",
+    "img": "/images/reception-setup.jpg",
+    "events": ["Reception", "Entry", "Stage"],
+    "budget": "Above ₹5L"
+  },
+  {
+    "id": "celebration-entry",
+    "title": "Signature Event Entry",
+    "description": "A refined entrance concept that creates a memorable first impression for your guests.",
+    "img": "/images/entry-setup.jpg",
+    "events": ["Entry", "Reception"],
+    "budget": "₹1L - ₹3L"
+  },
+  {
+    "id": "reception-stage",
+    "title": "Reception Stage",
+    "description": "A clean, classic stage design to bring focus to the most meaningful moments of your celebration.",
+    "img": "/images/stage-setup.jpg",
+    "events": ["Stage", "Sangeet", "Reception"],
+    "budget": "Above ₹5L"
+  }
+]
