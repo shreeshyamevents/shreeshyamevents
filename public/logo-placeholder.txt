@@ -1,0 +1,1 @@
+Add your actual brand logo here as `public/logo.png`. The application will fall back to its text wordmark until the image is added.

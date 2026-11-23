@@ -3,7 +3,6 @@ import EventSelector from '../components/EventSelector';
 import BudgetSelector from '../components/BudgetSelector';
 import SetupCard from '../components/SetupCard';
 import setups from '../data/setups.json';
-import '../styles/globals.css';
 
 export default function Home() {
   const [step, setStep] = useState(1);
@@ -40,7 +39,12 @@ export default function Home() {
   return (
     <main className="container">
       <header className="header">
-        <img className="logo" src="/logo.png" alt="Shree Shyam Events logo" />
+        <img
+          className="logo"
+          src="/logo.png"
+          alt="Shree Shyam Events logo"
+          onError={(event) => { event.currentTarget.hidden = true; }}
+        />
         <p className="brand-name">Shree Shyam Events</p>
       </header>
 
@@ -73,7 +77,7 @@ export default function Home() {
         <section aria-labelledby="results-heading">
           <p className="step-label">Step 3 of 3</p>
           <h1 className="question" id="results-heading">Setups for your celebration</h1>
-          <p className="step-label" style={{ textAlign: 'center', marginBottom: 24 }}>{resultSummary}</p>
+          <p className="result-summary">{resultSummary}</p>
           {results.length > 0 ? (
             <div className="results-grid">
               {results.map((setup) => <SetupCard key={setup.id} setup={setup} />)}
@@ -81,7 +85,7 @@ export default function Home() {
           ) : (
             <p className="empty-state">We don't have a setup matching that exact combination yet. Start over to explore another event or budget.</p>
           )}
-          <div className="actions" style={{ marginTop: 28 }}>
+          <div className="actions results-actions">
             <button className="btn" type="button" onClick={startOver}>Start Over</button>
           </div>
         </section>

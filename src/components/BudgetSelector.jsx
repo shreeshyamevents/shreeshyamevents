@@ -2,7 +2,7 @@ const BUDGETS = ['Under ₹1 Lakh', '₹1L - ₹3L', '₹3L - ₹5L', 'Above ₹
 
 export default function BudgetSelector({ budget, onSelect }) {
   return (
-    <div className="grid" role="radiogroup" aria-label="Choose your estimated budget">
+    <div className="grid budget-grid" role="radiogroup" aria-label="Choose your estimated budget">
       {BUDGETS.map((option) => (
         <button
           className={`option-card${budget === option ? ' selected' : ''}`}
