@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 
 export default function ARViewer({ modelUrl, onClose }) {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
+  const modelViewerRef = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -14,15 +15,42 @@ export default function ARViewer({ modelUrl, onClose }) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
-  const handleModelLoad = () => {
-    setLoading(false);
-    setLoadError(false);
-  };
+  useEffect(() => {
+    const viewer = modelViewerRef.current;
+    let isFinished = false;
 
-  const handleModelError = () => {
-    setLoading(false);
-    setLoadError(true);
-  };
+    setLoading(true);
+    setLoadError(false);
+
+    const handleModelLoad = () => {
+      isFinished = true;
+      setLoading(false);
+      setLoadError(false);
+    };
+
+    const handleModelError = () => {
+      isFinished = true;
+      setLoading(false);
+      setLoadError(true);
+    };
+
+    viewer?.addEventListener('load', handleModelLoad);
+    viewer?.addEventListener('error', handleModelError);
+
+    const timeoutId = window.setTimeout(() => {
+      if (!isFinished) {
+        isFinished = true;
+        setLoading(false);
+        setLoadError(true);
+      }
+    }, 5000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      viewer?.removeEventListener('load', handleModelLoad);
+      viewer?.removeEventListener('error', handleModelError);
+    };
+  }, [modelUrl]);
 
   return (
     <div
@@ -47,9 +75,10 @@ export default function ARViewer({ modelUrl, onClose }) {
         <div className="ar-viewer-frame">
           {loading && !loadError && <p className="ar-loading" role="status">Loading 3D model…</p>}
           {loadError ? (
-            <p className="ar-error" role="alert">This 3D model could not be loaded. Please try again later.</p>
+            <p className="ar-error" role="alert">3D Model currently unavailable. Please check back later.</p>
           ) : (
             <model-viewer
+              ref={modelViewerRef}
               className="ar-model-viewer"
               src={modelUrl}
               ar
@@ -57,8 +86,6 @@ export default function ARViewer({ modelUrl, onClose }) {
               camera-controls
               shadow-intensity="1"
               alt="Three-dimensional event setup preview"
-              onLoad={handleModelLoad}
-              onError={handleModelError}
             />
           )}
         </div>
