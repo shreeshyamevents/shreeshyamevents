@@ -1,24 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import EventSelector from '../components/EventSelector';
-
-// Import our custom components
-import EventSelector from '../components/EventSelector';
-import BudgetSlider from '../components/BudgetSlider';
-import SetupCard from '../components/SetupCard';
-import ARViewer from '../components/ARViewer';
-
-// Import our mock data
-import setupsData from '../data/setups.json';
 
 export default function Home() {
   const [step, setStep] = useState(1);
   const [selectedEvents, setSelectedEvents] = useState([]);
-  const [budget, setBudget] = useState(100000); // Default budget: ₹1,00,000
-  const [results, setResults] = useState([]);
-  const [selectedModel, setSelectedModel] = useState(null); // For the AR Modal
+  const [budget, setBudget] = useState(100000);
+  const [selectedModel, setSelectedModel] = useState(null);
 
-  // Step 1 Logic
+  const eventTypes = ['Haldi', 'Mehandi', 'Sangeet', 'Entry', 'Stage', 'Reception'];
+
   const handleEventSelect = (event) => {
     if (selectedEvents.includes(event)) {
       setSelectedEvents(selectedEvents.filter((e) => e !== event));
@@ -27,139 +17,86 @@ export default function Home() {
     }
   };
 
-  // Step 2 Logic: Filter data and move to Step 3
-  const handleSearch = () => {
-    // Filter the setups based on selected events and the numerical budget
-    const filteredResults = setupsData.filter((setup) => {
-      const matchesEvent = selectedEvents.some((event) => 
-        setup.events.includes(event)
-      );
-      const matchesBudget = setup.price <= budget; 
-      return matchesEvent && matchesBudget;
-    });
-
-    // If no results match, show all for the demo, or show an empty state
-    setResults(filteredResults.length > 0 ? filteredResults : setupsData.slice(0, 3));
-    setStep(3);
+  const formatCurrency = (val) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency', currency: 'INR', maximumFractionDigits: 0,
+    }).format(val);
   };
 
-  // Reset the entire app
-  const handleReset = () => {
-    setStep(1);
-    setSelectedEvents([]);
-    setBudget(100000);
-    setResults([]);
-    setSelectedModel(null);
-  };
+  // Load 3D Viewer script
+  useEffect(() => {
+    if (!document.querySelector('script[src*="model-viewer"]')) {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js';
+      document.head.appendChild(script);
+    }
+  }, []);
 
   return (
-    <div className="container">
-      <Head>
-        <title>Shree Shyam Events | Plan Your Event</title>
-        <meta name="description" content="Create your dream event with Shree Shyam Events" />
-      </Head>
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '40px 20px', textAlign: 'center', fontFamily: 'Montserrat, sans-serif' }}>
+      <Head><title>Shree Shyam Events</title></Head>
 
-      {/* Header / Logo Area */}
-      <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-        <img 
-          src="/logo.png" 
-          alt="Shree Shyam Events" 
-          style={{ maxWidth: '180px', height: 'auto' }}
-          onError={(e) => { e.target.style.display = 'none'; }}
-        />
-        <h1 style={{ fontSize: '2rem', marginTop: '20px', letterSpacing: '4px' }}>
-          Shree Shyam Events
-        </h1>
-        <p style={{ fontSize: '0.9rem', color: '#666', letterSpacing: '1px' }}>
-          Step {step} of 3
-        </p>
-      </div>
+      <img src="/logo.png" alt="Logo" style={{ maxWidth: '150px', marginBottom: '20px' }} onError={(e) => e.target.style.display = 'none'} />
+      <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: '2rem' }}>Shree Shyam Events</h1>
+      <p style={{ color: '#666' }}>Step {step} of 3</p>
 
-      {/* STEP 1: Event Selection */}
       {step === 1 && (
-        <div className="animate-fade-in">
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '10px' }}>What kind of event are you planning?</h2>
-          <p style={{ color: '#666', marginBottom: '40px' }}>Select all that apply.</p>
-          
-          <EventSelector 
-            selectedEvents={selectedEvents} 
-            onSelect={handleEventSelect} 
-          />
-          
-          <button 
-            className="btn" 
-            disabled={selectedEvents.length === 0}
-            onClick={() => setStep(2)}
-          >
-            Continue to Budget
-          </button>
+        <div>
+          <h2>What kind of event?</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '15px', margin: '30px 0' }}>
+            {eventTypes.map((event) => (
+              <div 
+                key={event} 
+                onClick={() => handleEventSelect(event)}
+                style={{ padding: '20px', border: selectedEvents.includes(event) ? '2px solid #1a1a1a' : '1px solid #ccc', cursor: 'pointer', background: selectedEvents.includes(event) ? '#f5f5f5' : 'white' }}
+              >
+                {event}
+              </div>
+            ))}
+          </div>
+          <button onClick={() => setStep(2)} disabled={selectedEvents.length === 0} style={{ background: '#1a1a1a', color: 'white', padding: '15px 40px', border: 'none', cursor: 'pointer' }}>Next</button>
         </div>
       )}
 
-      {/* STEP 2: Budget Slider */}
       {step === 2 && (
-        <div className="animate-fade-in">
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '10px' }}>What is your estimated budget?</h2>
-          <p style={{ color: '#666', marginBottom: '20px' }}>Slide to set your maximum budget.</p>
-          
-          <BudgetSlider budget={budget} setBudget={setBudget} />
-          
-          <button 
-            className="btn" 
-            onClick={handleSearch}
-            style={{ marginTop: '50px' }}
-          >
-            View Customized Setups
-          </button>
-          
-          <button 
-            onClick={() => setStep(1)}
-            style={{ background: 'none', border: 'none', color: '#666', marginTop: '20px', cursor: 'pointer', textDecoration: 'underline' }}
-          >
-            Go Back
-          </button>
+        <div>
+          <h2>What is your budget?</h2>
+          <div style={{ margin: '40px 0' }}>
+            <input type="range" min="50000" max="1000000" step="25000" value={budget} onChange={(e) => setBudget(Number(e.target.value))} style={{ width: '100%', cursor: 'pointer' }} />
+            <h3 style={{ fontSize: '2rem', marginTop: '20px' }}>{formatCurrency(budget)}</h3>
+          </div>
+          <button onClick={() => setStep(3)} style={{ background: '#1a1a1a', color: 'white', padding: '15px 40px', border: 'none', cursor: 'pointer' }}>View Setups</button>
         </div>
       )}
 
-      {/* STEP 3: Results */}
       {step === 3 && (
-        <div className="animate-fade-in">
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '30px' }}>Setups for your celebration</h2>
-          
-          {results.length === 0 ? (
-            <p>No setups found within this budget. Please try adjusting your budget.</p>
-          ) : (
-            <div className="grid">
-              {results.map((setup) => (
-                <SetupCard 
-                  key={setup.id} 
-                  setup={setup} 
-                  /* === OPTION A APPLIED HERE === */
-                  /* Using Google's test Astronaut model instead of goat.glb */
-                  onViewAR={() => setSelectedModel("https://modelviewer.dev/shared-assets/models/Astronaut.glb")} 
-                />
-              ))}
-            </div>
-          )}
-          
-          <button 
-            className="btn" 
-            onClick={handleReset} 
-            style={{ background: 'transparent', color: '#1a1a1a', border: '1px solid #1a1a1a', marginTop: '50px' }}
-          >
-            Start Over
-          </button>
+        <div>
+          <h2>Customized Setups</h2>
+          <div style={{ border: '1px solid #ccc', padding: '20px', margin: '30px 0' }}>
+            <h3>Classic Haldi Celebration</h3>
+            <p style={{ color: '#666' }}>A graceful setup for your special day.</p>
+            <button onClick={() => setSelectedModel("https://modelviewer.dev/shared-assets/models/Astronaut.glb")} style={{ background: '#1a1a1a', color: 'white', padding: '10px 20px', border: 'none', cursor: 'pointer' }}>View in AR/VR</button>
+          </div>
+          <button onClick={() => {setStep(1); setSelectedEvents([]);}} style={{ background: 'transparent', border: '1px solid #1a1a1a', padding: '15px 40px', cursor: 'pointer' }}>Start Over</button>
         </div>
       )}
 
-      {/* AR / VR 3D VIEWER MODAL */}
+      {/* 3D MODAL */}
       {selectedModel && (
-        <ARViewer 
-          modelUrl={selectedModel} 
-          onClose={() => setSelectedModel(null)} 
-        />
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.8)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
+          <div style={{ background: 'white', padding: '20px', width: '90%', maxWidth: '600px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+              <h3>3D View</h3>
+              <button onClick={() => setSelectedModel(null)} style={{ padding: '5px 15px', cursor: 'pointer' }}>Close</button>
+            </div>
+            <div style={{ height: '400px', background: '#f5f5f5' }}>
+              {/* @ts-ignore */}
+              <model-viewer src={selectedModel} ar camera-controls style={{ width: '100%', height: '100%' }}></model-viewer>
+            </div>
+          </div>
+        </div>
       )}
-
     </div>
   );
 }
