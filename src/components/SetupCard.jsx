@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function SetupCard({ setup }) {
+export default function SetupCard({ setup, onViewAR }) {
   const [imageFailed, setImageFailed] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ export default function SetupCard({ setup }) {
       <div className="setup-content">
         <h2 className="setup-title">{setup.title}</h2>
         <p className="setup-description">{setup.description}</p>
-        <button className="btn" type="button" onClick={() => window.alert('AR/VR preview coming soon.')}>
+        <button className="btn" type="button" onClick={onViewAR}>
           View in AR/VR
         </button>
       </div>

@@ -2,13 +2,17 @@ import { useMemo, useState } from 'react';
 import EventSelector from '../components/EventSelector';
 import BudgetSelector from '../components/BudgetSelector';
 import SetupCard from '../components/SetupCard';
+import ARViewer from '../components/ARViewer';
 import setups from '../data/setups.json';
+
+const MOCK_MODEL_URL = 'https://modelviewer.dev/shared-assets/models/Astronaut.glb';
 
 export default function Home() {
   const [step, setStep] = useState(1);
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [budget, setBudget] = useState('');
   const [results, setResults] = useState([]);
+  const [selectedModel, setSelectedModel] = useState(null);
 
   const handleEventSelect = (event) => {
     setSelectedEvents((current) => current.includes(event)
@@ -80,7 +84,9 @@ export default function Home() {
           <p className="result-summary">{resultSummary}</p>
           {results.length > 0 ? (
             <div className="results-grid">
-              {results.map((setup) => <SetupCard key={setup.id} setup={setup} />)}
+              {results.map((setup) => (
+                <SetupCard key={setup.id} setup={setup} onViewAR={() => setSelectedModel(MOCK_MODEL_URL)} />
+              ))}
             </div>
           ) : (
             <p className="empty-state">We don't have a setup matching that exact combination yet. Start over to explore another event or budget.</p>
@@ -89,6 +95,10 @@ export default function Home() {
             <button className="btn" type="button" onClick={startOver}>Start Over</button>
           </div>
         </section>
+      )}
+
+      {selectedModel && (
+        <ARViewer modelUrl={selectedModel} onClose={() => setSelectedModel(null)} />
       )}
     </main>
   );
