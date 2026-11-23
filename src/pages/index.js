@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import styles from '../styles/globals.css';
+import EventSelector from '../components/EventSelector';
 
 // Import our custom components
 import EventSelector from '../components/EventSelector';
