@@ -23,32 +23,35 @@ export default function Home() {
     }).format(val);
   };
 
-  // Load 3D Viewer script
   useEffect(() => {
     if (!document.querySelector('script[src*="model-viewer"]')) {
       const script = document.createElement('script');
       script.type = 'module';
-      script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js';
+      script.src = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
       document.head.appendChild(script);
     }
   }, []);
 
-  // Force AR Camera Open with fallback
-  const triggerAR = () => {
-    const modelViewer = document.querySelector('model-viewer');
-    
-    // 1. Try the standard model-viewer method first
-    if (modelViewer && modelViewer.activateAR) {
-      modelViewer.activateAR();
-      return;
-    }
-
-    // 2. Fail-safe: Manually launch the native Scene Viewer App on Android
-    if (/android/i.test(navigator.userAgent)) {
-      const modelUrl = "https://modelviewer.dev/shared-assets/models/Astronaut.glb"; 
-      const intent = `intent://arvr.google.com/scene-viewer/1.2?file=${encodeURIComponent(modelUrl)}&mode=ar_preferred#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;`;
-      window.location.href = intent;
-      return;
+  // THIS FUNCTION FORCES THE CAMERA PERMISSION PROMPT
+  const triggerAR = async () => {
+    try {
+      // 1. Force the browser to ask for Camera Permission right now
+      await navigator.mediaDevices.getUserMedia({ video: true });
+      
+      // 2. Once permission is granted, launch the AR viewer
+      const modelViewer = document.querySelector('model-viewer');
+      if (modelViewer && modelViewer.activateAR) {
+        modelViewer.activateAR();
+      } else if (/android/i.test(navigator.userAgent)) {
+        // Fallback: Directly open Google's Scene Viewer on Android
+        const modelUrl = "https://modelviewer.dev/shared-assets/models/Astronaut.glb"; 
+        const intent = `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(modelUrl)}&mode=ar_preferred#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;`;
+        window.location.href = intent;
+      }
+    } catch (error) {
+      // If the user denies the permission, show them a message
+      console.error("Camera permission denied:", error);
+      alert("Camera access is required to view the setup in your room. Please allow camera permissions in your browser settings.");
     }
   };
 
@@ -101,7 +104,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* 3D MODAL */}
       {selectedModel && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.9)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
           <div style={{ background: 'white', padding: '20px', width: '95%', maxWidth: '600px', borderRadius: '10px' }}>
@@ -112,7 +114,6 @@ export default function Home() {
             </div>
 
             <div style={{ height: '60vh', minHeight: '400px', background: '#f5f5f5', position: 'relative', borderRadius: '8px', overflow: 'hidden' }}>
-              {/* CRITICAL FIX: ar-modes has scene-viewer first */}
               {/* @ts-ignore */}
               <model-viewer 
                 src={selectedModel} 
@@ -146,10 +147,6 @@ export default function Home() {
                 </button>
               </model-viewer>
             </div>
-            
-            <p style={{ fontSize: '0.8rem', color: '#666', textAlign: 'center', marginTop: '15px' }}>
-              * AR mode is only available on compatible mobile devices.
-            </p>
           </div>
         </div>
       )}
